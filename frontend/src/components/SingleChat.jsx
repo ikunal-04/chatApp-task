@@ -10,6 +10,7 @@ import emojiIcon from "./smileyEmoji.svg";
 import voiceRecorder from "./voice-recorder.svg";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import CaptureAudio from "./CaptureAudio";
 // import suprsend from "@suprsend/web-sdk";
 
 let socket, selectedChatCompare;
@@ -22,6 +23,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [showEmojiBox, setShowEmojiBox] = useState(false);
+  const [showAudioRecorder, setShowAudioRecorder  ] = useState(false);
 
   const { user, notification, setNotification, selectedChat, setSelectedChat } =
     useContext(AuthContext);
@@ -238,57 +240,64 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   background: "#E0E0E0",
                 }}
               >
-                <img
-                  src={emojiIcon}
-                  alt="emojiIcon"
-                  height="20px"
-                  width="20px"
-                  margin="auto"
-                  style={{ filter: "contrast(0.3)", marginRight: "5px" }}
-                  onClick={() => setShowEmojiBox(!showEmojiBox)}
-                />
-                {showEmojiBox && (
-                  <div
+                {
+                  !showAudioRecorder && (
+                    <>
+                    <img
+                    src={emojiIcon}
+                    alt="emojiIcon"
+                    height="20px"
+                    width="20px"
+                    margin="auto"
+                    style={{ filter: "contrast(0.3)", marginRight: "5px" }}
+                    onClick={() => setShowEmojiBox(!showEmojiBox)}
+                  />
+                  {showEmojiBox && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: "0",
+                        bottom: "45px",
+                        zIndex: "1",
+                      }}
+                    >
+                      <Picker
+                        data={data}
+                        onEmojiSelect={(emoji) =>
+                          setNewMessage(newMessage.concat(emoji.native))
+                        }
+                      />
+                    </div>
+                  )}
+                  <input
                     style={{
-                      position: "absolute",
-                      left: "0",
-                      bottom: "45px",
-                      zIndex: "1",
-                    }}
-                  >
-                    <Picker
-                      data={data}
-                      onEmojiSelect={(emoji) =>
-                        setNewMessage(newMessage.concat(emoji.native))
-                      }
-                    />
-                  </div>
-                )}
-                <input
-                  style={{
 
-                    width: "95%",
-                    backgroundColor: 'white',
-                    border: "none",
-                    borderRadius: "5px",
-                    outline: "none",
-                    padding: "10px",
-                    fontSize: "16px",
-                  }}
-                  placeholder="Enter a message.."
-                  value={newMessage}
-                  onKeyDown={sendMessage}
-                  onChange={typingHandler}
-                />
-                <img
-                  src={voiceRecorder}
-                  alt="audioIcon"
-                  height="20px"
-                  width="20px"
-                  margin="auto"
-                  style={{ filter: "contrast(0.3)", marginRight: "5px" }}
-                  onClick={() => setShowEmojiBox(!showEmojiBox)}
-                />
+                      width: "95%",
+                      backgroundColor: 'white',
+                      border: "none",
+                      borderRadius: "5px",
+                      outline: "none",
+                      padding: "10px",
+                      fontSize: "16px",
+                    }}
+                    placeholder="Enter a message.."
+                    value={newMessage}
+                    onKeyDown={sendMessage}
+                    onChange={typingHandler}
+                  />
+                  <img
+                    src={voiceRecorder}
+                    alt="audioIcon"
+                    height="20px"
+                    width="20px"
+                    margin="auto"
+                    style={{ filter: "contrast(0.3)", marginRight: "5px" }}
+                    onClick={() => setShowAudioRecorder(!showAudioRecorder)}
+                  />
+                    </>
+                  )
+                }
+                {showAudioRecorder && <CaptureAudio hide={setShowAudioRecorder} />}
               </div>
             </div>
           </div>
