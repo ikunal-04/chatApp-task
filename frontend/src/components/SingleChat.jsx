@@ -7,6 +7,7 @@ import { AuthContext } from "../context/context";
 import UpdateGroupChatModel from "./UpdateGroupChatModel";
 import io from "socket.io-client";
 import emojiIcon from "./smileyEmoji.svg";
+import voiceRecorder from "./voice-recorder.svg";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 // import suprsend from "@suprsend/web-sdk";
@@ -227,7 +228,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   margin: 'auto',
                   position: "fixed",
                   bottom: "30px",
-                  border: "1px solid white",
+                  border: "2px solid black",
                   border: 'none',
                   backgroundColor: 'white',
                   borderRadius: '10px',
@@ -242,6 +243,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   alt="emojiIcon"
                   height="20px"
                   width="20px"
+                  margin="auto"
                   style={{ filter: "contrast(0.3)", marginRight: "5px" }}
                   onClick={() => setShowEmojiBox(!showEmojiBox)}
                 />
@@ -278,7 +280,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   onKeyDown={sendMessage}
                   onChange={typingHandler}
                 />
-
+                <img
+                  src={voiceRecorder}
+                  alt="audioIcon"
+                  height="20px"
+                  width="20px"
+                  margin="auto"
+                  style={{ filter: "contrast(0.3)", marginRight: "5px" }}
+                  onClick={() => setShowEmojiBox(!showEmojiBox)}
+                />
               </div>
             </div>
           </div>
